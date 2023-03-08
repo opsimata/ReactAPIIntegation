@@ -1,10 +1,23 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import IRestaurante from "../../../interfaces/IRestaurante"
-import { Link } from "react-router-dom";
 
 export default function AdministracaoRestaurantes() {
+
+	const buttonStyle = {
+		textDecoration: 'none',
+		color: "SlateGrey",
+		backgroundColor: "Lavender",
+		fontWeight: "bolder"
+	}
+
+	const deleteButtonStyle = {
+		textDecoration: 'none',
+		color: "Tomato",
+		fontWeight: "bolder",
+		border: "1px solid tomato"
+	}
 
 	const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
 
@@ -12,6 +25,14 @@ export default function AdministracaoRestaurantes() {
 		axios.get<IRestaurante[]>("http://localhost:8000/api/v2/restaurantes/")
 			.then(resposta => setRestaurantes(resposta.data))
 	}, [])
+
+	const excluir = (restauranteExcluido: IRestaurante) => {
+		axios.delete(`http://localhost:8000/api/v2/restaurantes/${restauranteExcluido.id}/`)
+		.then(() => {
+			const listaRestAtualizada = restaurantes.filter(restaurante => restaurante.id !== restauranteExcluido.id)
+			setRestaurantes([ ...listaRestAtualizada ])
+		})
+	}
 
 	return (
 		<TableContainer component={Paper}>
@@ -24,6 +45,9 @@ export default function AdministracaoRestaurantes() {
 						<TableCell>
 							Editar
 						</TableCell>
+						<TableCell>
+							Excluir
+						</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -32,7 +56,24 @@ export default function AdministracaoRestaurantes() {
 							{restaurante.nome}
 						</TableCell>
 						<TableCell>
-							[ <Link to={`/admin/restaurantes/${restaurante.id}`}>editar</Link> ]
+							<Button
+								variant="contained"
+								style={buttonStyle}
+								href={`/admin/restaurantes/${restaurante.id}`}
+								disableElevation
+							>
+								Editar
+							</Button>
+						</TableCell>
+						<TableCell>
+							<Button
+								variant="outlined"
+								style={deleteButtonStyle}
+								disableElevation
+								onClick={() => excluir(restaurante)}
+							>
+								Excluir
+							</Button>
 						</TableCell>
 					</TableRow>)}
 				</TableBody>

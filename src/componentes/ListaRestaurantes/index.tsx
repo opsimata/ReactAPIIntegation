@@ -4,8 +4,25 @@ import { IPaginacao } from '../../interfaces/IPaginacao';
 import IRestaurante from '../../interfaces/IRestaurante';
 import style from './ListaRestaurantes.module.scss';
 import Restaurante from './Restaurante';
+import { Button } from "@mui/material";
 
-const ListaRestaurantes = () => {
+export default function ListaRestaurantes () {
+
+  const buttonPrev = {
+    marginTop: 15,
+		textDecoration: 'none',
+		color: "SlateGrey",
+		backgroundColor: "Lavender",
+		fontWeight: "bolder"
+	}
+  const buttonNext = {
+    marginTop: 15,
+    marginLeft: 5,
+		textDecoration: 'none',
+		color: "SlateGrey",
+		backgroundColor: "Lavender",
+		fontWeight: "bolder"
+	}
 
   const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([])
   const [proximaPagina, setProximaPagina] = useState('')
@@ -31,13 +48,11 @@ const ListaRestaurantes = () => {
   return (<section className={style.ListaRestaurantes}>
     <h1>Os restaurantes mais <em>bacanas</em>!</h1>
     {restaurantes?.map(item => <Restaurante restaurante={item} key={item.id} />)}
-    {<button onClick={() => carregarDados(paginaAnterior)} disabled={!paginaAnterior}>
+    {<Button style={buttonPrev} variant="contained" onClick={() => carregarDados(paginaAnterior)} disabled={!paginaAnterior}>
       Página Anterior
-    </button>}
-    {<button onClick={() => carregarDados(proximaPagina)} disabled={!proximaPagina}>
+    </Button>}
+    {<Button style={buttonNext} variant="contained" onClick={() => carregarDados(proximaPagina)} disabled={!proximaPagina}>
       Próxima página
-    </button>}
+    </Button>}
   </section>)
 }
-
-export default ListaRestaurantes;

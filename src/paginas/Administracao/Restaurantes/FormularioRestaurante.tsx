@@ -6,6 +6,13 @@ import IRestaurante from "../../../interfaces/IRestaurante";
 
 export default function FormularioRestaurante() {
 
+    const buttonStyle = {
+		textDecoration: 'none',
+		color: "SlateGrey",
+		backgroundColor: "Lavender",
+		fontWeight: "bolder"
+	}
+
     const parametros = useParams()
 
     useEffect(() => {
@@ -46,7 +53,7 @@ export default function FormularioRestaurante() {
                 variant="standard"
             />
 
-            <Button type="submit" variant="outlined">Salvar</Button>
+            <Button style={buttonStyle} type="submit" variant="contained" disableElevation>Salvar</Button>
         </form>
     )
 }
