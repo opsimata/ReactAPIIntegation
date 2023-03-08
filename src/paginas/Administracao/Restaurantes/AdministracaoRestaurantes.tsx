@@ -2,6 +2,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import axios from "axios"
 import { useEffect, useState } from "react"
 import IRestaurante from "../../../interfaces/IRestaurante"
+import { Link } from "react-router-dom";
 
 export default function AdministracaoRestaurantes() {
 
@@ -20,12 +21,18 @@ export default function AdministracaoRestaurantes() {
 						<TableCell>
 							Nome
 						</TableCell>
+						<TableCell>
+							Editar
+						</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{restaurantes.map(restaurante => <TableRow key={restaurante.id}>
 						<TableCell>
 							{restaurante.nome}
+						</TableCell>
+						<TableCell>
+							[ <Link to={`/admin/restaurantes/${restaurante.id}`}>editar</Link> ]
 						</TableCell>
 					</TableRow>)}
 				</TableBody>
